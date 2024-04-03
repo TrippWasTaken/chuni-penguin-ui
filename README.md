@@ -1,5 +1,14 @@
 Artemis frontend with an Aime switching ability because my lazy butt doesnt want to keep changing the text file manually
 
+## Currently using
+- NextJS
+- TailwindCSS
+- Drizzle
+- Node
+- Typescript
+- Framer Motion
+- Axios
+
 ## Todo
 - Everything rn lol
 
