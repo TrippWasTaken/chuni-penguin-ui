@@ -13,9 +13,14 @@ Artemis frontend with an Aime switching ability because my lazy butt doesnt want
 - Mobile layout if I actually get somewhere with this
 - New Aime creation/profile adding
 - Whole Chuni UI lol
-- if you really want to run this be sure to use your local artemis db URI in an env file
-- if you dont know what any of this means you have no reason to use this :)
-  
-```bash
-npm run dev
+
+## How to run although theres not much to run
+- ```npm install```
+- Add an ``` .env.local ``` file to the project root with the following variables
 ```
+DATABASE_URL="YOUR ARTEMIS URI HERE"
+AIME_TXT="YOUR aime.txt PATH HERE"
+```
+- you might need to run this ```npx drizzle-kit introspect:mysql``` if for some reason github ignored the db files
+- if you did need to run that you'll have to fix some syntax errors and I think import some missing imports.
+- Adter that youre all setup and just do the classic ```npm run dev```
