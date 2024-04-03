@@ -10,8 +10,9 @@ Artemis frontend with an Aime switching ability because my lazy butt doesnt want
 - Axios
 
 ## Todo
-- Everything rn lol
-
+- Mobile layout if I actually get somewhere with this
+- New Aime creation/profile adding
+- Whole Chuni UI lol
 - if you really want to run this be sure to use your local artemis db URI in an env file
 - if you dont know what any of this means you have no reason to use this :)
   
