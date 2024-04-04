@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
     "axios": "^1.6.8",
+    "bcrypt": "^5.1.1",
     "drizzle-orm": "^0.30.6",
     "framer-motion": "^11.0.24",
     "mysql2": "^3.9.3",
@@ -20,6 +21,7 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

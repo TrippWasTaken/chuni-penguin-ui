@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcrypt";
 import { db } from "@/db";
 import { aimeCard, aimeUser } from "@/drizzle/schema";
-import { eq } from "drizzle-orm";
+import { eq, exists } from "drizzle-orm";
+import { NewUser } from "@/types/aime";
 
 export async function GET(req: NextRequest) {
   const aimeUsers = await db
@@ -24,7 +26,35 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (req.body) console.log(req.body);
+  // make an access code for when a user has none
+  const generateAccessCode = () => {
+    let aime = "";
+    for (let i = 0; i < 20; i++) {
+      let digit = Math.floor(Math.random() * 10);
+      if (aime.length === 0) {
+        digit = 4;
+      }
+
+      aime += digit.toString();
+    }
+    return aime;
+  };
+  const data: NewUser = await req.json();
+  console.log(data.username);
+
+  const existingUser = await db
+    .select()
+    .from(aimeUser)
+    .where(eq(aimeUser.username, data.username));
+  if (existingUser.length < 0) {
+    return NextResponse.json("User already exists", { status: 400 });
+  }
+  if (data.password !== data.confirmPassword) {
+    return NextResponse.json("Passwords are not matching", { status: 400 });
+  }
+
+  const hashedPassword = await bcrypt.hash(data.password, 12);
+  const accessCode = generateAccessCode();
 }
 
 export async function PUT() {}

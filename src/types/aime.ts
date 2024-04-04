@@ -8,3 +8,13 @@ export interface AimeCard {
   lastUsed: string;
   isActive: boolean;
 }
+
+export interface NewAime {
+  accessCode: typeof aimeCard.accessCode;
+}
+export interface NewUser {
+  username: typeof aimeUser.username;
+  password: string;
+  confirmPassword: string;
+  accessCode?: NewAime;
+}

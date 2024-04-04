@@ -6,6 +6,7 @@ import { LoadingComponent } from "@/app/common/global/loadingComponent";
 import { AimeCard } from "@/types/aime";
 import useSWR from "swr";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import NewCardForm from "./newCardForm";
 
 export default function Aime() {
   const {
@@ -60,12 +61,8 @@ export default function Aime() {
         ref={modalRef}
       >
         <div className="modal-box">
-          <h1 className="font-bold text-lg">Add new card</h1>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">Close</button>
-            </form>
-          </div>
+          <h1 className="font-bold text-lg pb-5">Add new card</h1>
+          <NewCardForm />
         </div>
       </dialog>
     </div>

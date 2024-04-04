@@ -1,6 +1,6 @@
 "use client";
 import { useAlertState } from "@/app/context/alertContext";
-import { Alert } from "@/types/alert";
+import { AlertType } from "@/types/alert";
 import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
@@ -11,7 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function Alert() {
   const { alert } = useAlertState();
-  const { type, show, message }: Alert = alert;
+  const { type, show, message }: AlertType = alert;
   return (
     <AnimatePresence>
       {show && (

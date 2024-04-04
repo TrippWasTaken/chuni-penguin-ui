@@ -26,8 +26,7 @@ export default function Card({
       const res = await axios.put("/api/aime/active", {
         cardNumber: cardNumber,
       });
-      console.log(res);
-      cardUpdate();
+      if (res.status === 200) cardUpdate(); //revalidate active card
     }
   };
   return (
