@@ -1,7 +1,7 @@
 "use client";
 import { AimeCard } from "@/types/aime";
 import React from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useAlertState } from "@/app/context/alertContext";
 import axios from "axios";
@@ -41,12 +41,19 @@ export default function Card({
         mass: 1,
       }}
       whileHover={{ scale: 1.1 }}
-      className="p-5 rounded-3xl aspect-[3/2] w-1/4 glass bg-accent text-accent-content hover:cursor-pointer shadow-lg relative select-none"
+      className="p-5 rounded-3xl aspect-[3/2] w-full glass bg-accent text-accent-content hover:cursor-pointer shadow-lg relative select-none"
     >
       {isActive && (
-        <div className="badge badge-outline badge-lg rounded-xl font-bold text-2xl p-4 absolute right-5 top-5">
-          Active
-        </div>
+        <AnimatePresence>
+          <motion.div
+            initial={{ translateY: -50, opacity: 0 }}
+            animate={{ translateY: 0, opacity: 1 }}
+            exit={{ translateY: -50, opacity: 0 }}
+            className="badge badge-lg badge-success rounded-xl font-bold text-2xl p-4 absolute right-5 top-5"
+          >
+            Active
+          </motion.div>
+        </AnimatePresence>
       )}
       <div className="grid grid-rows-3 grid-cols-2 relative h-full">
         <div className="text-3xl font-semibold col-span-2">

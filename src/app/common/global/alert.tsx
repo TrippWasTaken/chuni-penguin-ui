@@ -20,7 +20,7 @@ export default function Alert() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           role="alert"
-          className={`alert rounded-none alert-${type} `} // fix this as it doesnt actually work. Tailwind ignores dynamic
+          className={`alert absolute top-0 rounded-none alert-${type} `} // fix this as it doesnt actually work. Tailwind ignores dynamic
         >
           {
             {
