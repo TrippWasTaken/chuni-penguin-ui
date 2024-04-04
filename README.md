@@ -1,4 +1,6 @@
-Artemis frontend with an Aime switching ability because my lazy butt doesnt want to keep changing the text file manually
+Artemis frontend with an Aime switching ability because my lazy butt doesnt want to keep changing the text file manually.
+In an ideal work this will be simillar to the Osu website where every user can view scores and other user "profiles" IE their top scores and so on.
+why? because Im too lazy to do user auth rn :)
 
 ## Currently using
 - NextJS
