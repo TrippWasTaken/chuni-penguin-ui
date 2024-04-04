@@ -2,15 +2,16 @@
 import React from "react";
 import Card from "@/app/common/aime/card";
 import { fetcher } from "@/app/common/fetcher";
-import { LoadingComponent } from "@/app/common/loadingComponent";
+import { LoadingComponent } from "@/app/common/global/loadingComponent";
 import { AimeCard } from "@/types/aime";
 import useSWR from "swr";
 
 export default function Aime() {
-  const { data: activeCard, isLoading: activeLoading } = useSWR(
-    "/api/aime/active",
-    fetcher
-  );
+  const {
+    data: activeCard,
+    isLoading: activeLoading,
+    mutate: cardUpdate,
+  } = useSWR("/api/aime/active", fetcher);
   const {
     data: aimeCards,
     error,
@@ -31,6 +32,7 @@ export default function Aime() {
               cardNumber={card.cardNumber}
               lastUsed={card.lastUsed}
               createdDate={card.createdDate}
+              cardUpdate={cardUpdate}
             />
           ))}
         </div>

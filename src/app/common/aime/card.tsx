@@ -3,6 +3,8 @@ import { AimeCard } from "@/types/aime";
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useAlertState } from "@/app/context/alertContext";
+import axios from "axios";
 
 export default function Card({
   id = 0,
@@ -11,14 +13,26 @@ export default function Card({
   createdDate = "N/A",
   lastUsed = "N/A",
   isActive,
-}: AimeCard) {
-  console.log(isActive);
-  // id is unused but I might show it sometime
+  cardUpdate,
+}: { cardUpdate: any } & AimeCard) {
+  const { showAlert } = useAlertState();
   const createdSplit = createdDate.split(" ");
   const lastSplit = lastUsed.split(" ");
   const cardNumberSplit = cardNumber.match(/.{4}/g)!;
+
+  const switchActive = async (isActive: boolean, cardNumber: string) => {
+    if (isActive) showAlert("This card is already active", "info", 2);
+    else {
+      const res = await axios.put("/api/aime/active", {
+        cardNumber: cardNumber,
+      });
+      console.log(res);
+      cardUpdate();
+    }
+  };
   return (
     <motion.div
+      onDoubleClick={() => switchActive(isActive, cardNumber)}
       whileTap={{ scale: 1.05 }}
       transition={{
         type: "spring",
@@ -27,7 +41,7 @@ export default function Card({
         mass: 1,
       }}
       whileHover={{ scale: 1.1 }}
-      className="p-5 rounded-3xl aspect-[3/2] w-1/4 glass bg-accent text-accent-content hover:cursor-pointer shadow-lg relative"
+      className="p-5 rounded-3xl aspect-[3/2] w-1/4 glass bg-accent text-accent-content hover:cursor-pointer shadow-lg relative select-none"
     >
       {isActive && (
         <div className="badge badge-outline badge-lg rounded-xl font-bold text-2xl p-4 absolute right-5 top-5">

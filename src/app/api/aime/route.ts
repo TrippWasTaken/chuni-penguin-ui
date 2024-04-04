@@ -23,7 +23,9 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(aimeUsers, { status: 200 });
 }
 
-export async function POST() {}
+export async function POST(req: NextRequest) {
+  if (req.body) console.log(req.body);
+}
 
 export async function PUT() {}
 

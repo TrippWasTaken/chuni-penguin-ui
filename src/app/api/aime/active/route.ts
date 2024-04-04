@@ -1,8 +1,9 @@
-import { readFile } from "fs/promises";
+import { readFile, writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 
+const aimeURL: string = process.env.AIME_TXT as unknown as string; //ew
+
 export async function GET() {
-  const aimeURL: string = process.env.AIME_TXT as unknown as string; //ew
   try {
     const activeAime = await readFile(aimeURL, { encoding: "utf-8" });
     return NextResponse.json(activeAime.trim(), { status: 200 });
@@ -13,6 +14,17 @@ export async function GET() {
     );
   }
 }
-export async function PUT() {}
+export async function PUT(req: NextRequest) {
+  const body = await req.json();
+  try {
+    await writeFile(aimeURL, body.cardNumber, { flag: "w+" });
+    return NextResponse.json(body.cardNumber, { status: 200 });
+  } catch (err) {
+    return NextResponse.json(
+      { error: `Something broke along the way ${err}` },
+      { status: 500 }
+    );
+  }
+}
 export async function POST() {}
 export async function DELETE() {}
