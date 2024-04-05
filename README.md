@@ -11,12 +11,16 @@ why? because Im too lazy to do user auth rn :)
 - Framer Motion
 - Axios
 
+## currently in working condition
+- Aime switching
+- new user adding
+
 ## Todo
 - Mobile layout if I actually get somewhere with this
 - New Aime creation/profile adding
 - Whole Chuni UI lol
 
-## How to run although theres not much to run
+## How to run
 - ```npm install```
 - Add an ``` .env.local ``` file to the project root with the following variables
 ```
