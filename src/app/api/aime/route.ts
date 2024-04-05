@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { db } from "@/db";
 import { aimeCard, aimeUser } from "@/drizzle/schema";
-import { eq, exists } from "drizzle-orm";
+import { eq, exists, sql } from "drizzle-orm";
 import { NewUser } from "@/types/aime";
+import { MySqlRawQueryResult } from "drizzle-orm/mysql2";
 
 export async function GET(req: NextRequest) {
   const aimeUsers = await db
@@ -27,34 +28,70 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   // make an access code for when a user has none
-  const generateAccessCode = () => {
+  const data: NewUser & { createNew: boolean } = await req.json();
+  const generateAccessCode = async (): Promise<string> => {
+    const generateNum = (len: number): number => {
+      const digit = Math.floor(Math.random() * 9);
+      if (len === 0 && digit === 3) return generateNum(len);
+      return digit;
+    };
+
     let aime = "";
     for (let i = 0; i < 20; i++) {
-      let digit = Math.floor(Math.random() * 10);
-      if (aime.length === 0) {
-        digit = 4;
-      }
-
+      let digit = generateNum(aime.length);
       aime += digit.toString();
+    }
+
+    //dont want to insert doubles into the db
+    const checkDuplicateCode = await db
+      .select()
+      .from(aimeCard)
+      .where(eq(aimeCard.accessCode, aime));
+
+    if (checkDuplicateCode.length > 0) {
+      return generateAccessCode();
     }
     return aime;
   };
-  const data: NewUser = await req.json();
-  console.log(data.username);
 
-  const existingUser = await db
-    .select()
-    .from(aimeUser)
-    .where(eq(aimeUser.username, data.username));
-  if (existingUser.length < 0) {
-    return NextResponse.json("User already exists", { status: 400 });
-  }
-  if (data.password !== data.confirmPassword) {
-    return NextResponse.json("Passwords are not matching", { status: 400 });
-  }
+  const createNewUser = async (data: any) => {
+    const existingUser = await db
+      .select()
+      .from(aimeUser)
+      .where(eq(aimeUser.username, data.username));
+    if (existingUser.length < 0) {
+      return NextResponse.json("User already exists", { status: 400 });
+    }
+    if (data.password !== data.confirmPassword) {
+      return NextResponse.json("Passwords are not matching", { status: 400 });
+    }
 
-  const hashedPassword = await bcrypt.hash(data.password, 12);
-  const accessCode = generateAccessCode();
+    const hashedPassword = await bcrypt.hash(data.password, 12);
+    const accessCode = await generateAccessCode();
+
+    const userToInsert: typeof aimeUser.$inferInsert = {
+      username: data.username,
+      password: hashedPassword,
+      permissions: 1,
+    };
+
+    const query: MySqlRawQueryResult = await db
+      .insert(aimeUser)
+      .values(userToInsert);
+
+    const linkCard: typeof aimeCard.$inferInsert = {
+      user: query[0].insertId,
+      accessCode: accessCode,
+    };
+
+    await db.insert(aimeCard).values(linkCard);
+
+    return NextResponse.json(query[0].insertId, { status: 200 });
+  };
+
+  if (data.createNew) {
+    return await createNewUser(data);
+  }
 }
 
 export async function PUT() {}

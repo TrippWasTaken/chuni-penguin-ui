@@ -1,22 +1,36 @@
 import { NewUser } from "@/types/aime";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import axios from "axios";
-import React, { FormEvent } from "react";
+import React, { FormEvent, useRef } from "react";
 
-export default function NewCardForm() {
+export default function NewCardForm({
+  modalRef,
+  refresh,
+}: {
+  modalRef: HTMLDialogElement | null;
+  refresh: any;
+}) {
+  const formRef = useRef<HTMLFormElement>(null);
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
 
-    await axios.post("/api/aime", {
-      username: form.username.value,
-      password: form.password.value,
-      confirmPassword: form.confirmPassword.value,
-    });
+    await axios
+      .post("/api/aime", {
+        createNew: true,
+        username: form.username.value,
+        password: form.password.value,
+        confirmPassword: form.confirmPassword.value,
+      })
+      .then(() => {
+        modalRef?.close();
+        formRef.current?.reset();
+        refresh();
+      });
   };
   return (
     <>
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form onSubmit={(e) => onSubmit(e)} ref={formRef}>
         <div className="flex flex-col gap-5">
           <label className="input input-bordered flex items-center gap-2">
             <UserOutlined /> Username

@@ -18,6 +18,7 @@ export default function Aime() {
     data: aimeCards,
     error,
     isLoading: aimeCardsLoading,
+    mutate: aimeUpdate,
   } = useSWR("/api/aime", fetcher);
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
@@ -62,7 +63,7 @@ export default function Aime() {
       >
         <div className="modal-box">
           <h1 className="font-bold text-lg pb-5">Add new card</h1>
-          <NewCardForm />
+          <NewCardForm modalRef={modalRef.current} refresh={aimeUpdate} />
         </div>
       </dialog>
     </div>

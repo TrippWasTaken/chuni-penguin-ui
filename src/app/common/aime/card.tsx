@@ -7,18 +7,24 @@ import { useAlertState } from "@/app/context/alertContext";
 import axios from "axios";
 
 export default function Card({
-  id = 0,
+  // id = 0,
   username = "No linked Username",
-  cardNumber = "N/A",
-  createdDate = "N/A",
-  lastUsed = "N/A",
+  cardNumber,
+  createdDate,
+  lastUsed,
   isActive,
   cardUpdate,
 }: { cardUpdate: any } & AimeCard) {
   const { showAlert } = useAlertState();
-  const createdSplit = createdDate.split(" ");
-  const lastSplit = lastUsed.split(" ");
-  const cardNumberSplit = cardNumber.match(/.{4}/g)!;
+  const createdSplit = createdDate?.split(" ") || ["no", "data"];
+  const lastSplit = lastUsed?.split(" ") || ["no", "data"];
+  const cardNumberSplit = cardNumber?.match(/.{4}/g)! || [
+    "null",
+    "null",
+    "null",
+    "null",
+    "null",
+  ];
 
   const switchActive = async (isActive: boolean, cardNumber: string) => {
     if (isActive) showAlert("This card is already active", "info", 2);
