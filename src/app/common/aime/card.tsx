@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useAlertState } from "@/app/context/alertContext";
 import axios from "axios";
+import stc from "string-to-color";
 
 export default function Card({
   // id = 0,
@@ -15,6 +16,8 @@ export default function Card({
   isActive,
   cardUpdate,
 }: { cardUpdate: any } & AimeCard) {
+  const cardColor = stc(username);
+
   const { showAlert } = useAlertState();
   const createdSplit = createdDate?.split(" ") || ["no", "data"];
   const lastSplit = lastUsed?.split(" ") || ["no", "data"];
@@ -46,7 +49,8 @@ export default function Card({
         mass: 1,
       }}
       whileHover={{ scale: 1.1 }}
-      className="p-5 rounded-3xl aspect-[3/2] w-full glass bg-accent text-accent-content hover:cursor-pointer shadow-lg relative select-none"
+      className={`p-5 rounded-3xl aspect-[3/2] w-full glass text-accent-content hover:cursor-pointer shadow-lg relative select-none`}
+      style={{ backgroundColor: cardColor }}
     >
       {isActive && (
         <AnimatePresence>
