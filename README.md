@@ -10,6 +10,7 @@ why? because Im too lazy to do user auth rn :)
 - Typescript
 - Framer Motion
 - Axios
+- Ffmpeg
 
 ## currently in working condition
 - Aime switching
