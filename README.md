@@ -18,7 +18,6 @@ why? because Im too lazy to do user auth rn :)
 
 ## Todo
 - Mobile layout if I actually get somewhere with this
-- New Aime creation/profile adding
 - Whole Chuni UI lol
 
 ## How to run
