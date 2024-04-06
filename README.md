@@ -30,6 +30,7 @@ why? because Im too lazy to do user auth rn :)
 ## How to run
 - ```npm install```
 - Add an ``` .env.local ``` file to the project root with the following variables
+- Run the extract script with node and make sure your directories are set properly (be sure to create a static folder in public if it doesnt exist)
 ```
 DATABASE_URL="YOUR ARTEMIS URI HERE"
 AIME_TXT="YOUR aime.txt PATH HERE"
