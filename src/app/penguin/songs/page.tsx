@@ -9,7 +9,7 @@ import axios from "axios";
 import React from "react";
 import useSWR from "swr";
 
-export default function Songs({ setInfo }) {
+export default function Songs() {
   const getSongs: typeof chuniStaticMusic | any = async () => {
     const songs = await axios.get("/api/chuni/songs").then((res) => res.data);
     return songs;
@@ -17,6 +17,8 @@ export default function Songs({ setInfo }) {
 
   const { data, isLoading, error } = useSWR("/api/chuni/songs", fetcher);
 
+  // hardcoded for now because I want to get the general dash done up
+  // before making it unbreakable
   const difficultyFilterCaterogies = {
     name: "difficulty",
     values: [

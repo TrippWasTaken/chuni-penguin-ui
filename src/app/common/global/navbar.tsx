@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import NavUserIcon from "./navUserIcon";
 
 export default function Navbar({ currPath }: { currPath: string }) {
   const ChuniPenguinLogoURL = "/static/CHU_UI_Character_0000_00_02.png";
@@ -8,7 +9,7 @@ export default function Navbar({ currPath }: { currPath: string }) {
   return (
     <>
       <div className="bg-primary glass absolute w-full h-1/4 z-0" />
-      <div className="text-primary-content navbar max-w-screen-xl h-20 z-10 relative m-auto">
+      <div className="text-primary-content navbar max-w-screen-xl h-20 z-[100] relative m-auto">
         <Link href="/" className="h-full navbar-start">
           <div className="h-full relative aspect-square">
             <Image
@@ -35,11 +36,7 @@ export default function Navbar({ currPath }: { currPath: string }) {
           </ul>
         </div>
         <div className="navbar-end">
-          <div className="avatar placeholder">
-            <div className="rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 text-4xl w-20">
-              WIP
-            </div>
-          </div>
+          <NavUserIcon />
         </div>
       </div>
     </>
