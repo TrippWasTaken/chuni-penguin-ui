@@ -54,14 +54,14 @@ const config = {
   providers: [credentialsConfig],
   callbacks: {
     // This feels very incorrect but for now it will have to do
-    async jwt({ token, user, session }) {
+    async jwt({ token, user }) {
       if (user) {
         token.user = user;
       }
       return token;
     },
 
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       // @ts-ignore
       session.user = token.user;
       return session;
