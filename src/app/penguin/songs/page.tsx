@@ -10,11 +10,6 @@ import React from "react";
 import useSWR from "swr";
 
 export default function Songs() {
-  const getSongs: typeof chuniStaticMusic | any = async () => {
-    const songs = await axios.get("/api/chuni/songs").then((res) => res.data);
-    return songs;
-  };
-
   const { data, isLoading, error } = useSWR("/api/chuni/songs", fetcher);
 
   // hardcoded for now because I want to get the general dash done up

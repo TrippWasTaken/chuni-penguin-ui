@@ -8,6 +8,8 @@ import { eq } from "drizzle-orm";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { AdapterUser } from "next-auth/adapters";
+import axios from "axios";
+import { getUserChuniProfileData } from "./app/common/utilities/getUserChuniProfileData";
 
 const credentialsConfig = CredentialsProvider({
   name: "Credentials",
@@ -37,14 +39,9 @@ const credentialsConfig = CredentialsProvider({
     );
     console.log("password verified", passMatch);
     if (user[0] && passMatch) {
-      console.log("stuff matches");
       const { id } = user[0];
-      const latestData = await db
-        .select()
-        .from(chuniProfileData)
-        .where(eq(chuniProfileData.user, id));
-      // for now only return the last index of data
-      return latestData[latestData.length - 1];
+
+      return await getUserChuniProfileData(id, true);
     } else return null;
   },
 });
@@ -68,7 +65,7 @@ const config = {
     },
   },
 
-  debug: process.env.NODE_ENV === "development",
+  // debug: process.env.NODE_ENV === "development",
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",

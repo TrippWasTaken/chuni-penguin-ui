@@ -4,6 +4,7 @@ import { KeyOutlined, UserOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import React, { FormEvent, useRef } from "react";
 import { getCharacterImagePath } from "../utilities/getCharacterImage";
+import Link from "next/link";
 
 export default function NavUserIcon() {
   const ChuniNoUserURL = "/static/CHU_UI_Avatar_Icon_01300001.png";
@@ -22,7 +23,7 @@ export default function NavUserIcon() {
   console.log("the current session: ", session);
 
   if (session && session?.user) {
-    const { charaIllustId } = session.user;
+    const { charaIllustId, id } = session.user;
     const userImg = getCharacterImagePath(charaIllustId, "small");
     return (
       <div>
@@ -31,14 +32,17 @@ export default function NavUserIcon() {
           role="button"
           className="btn btn-round btn-ghost avatar h-20 p-0 m-0"
         >
-          <div className="rounded-full h-full relative aspect-square border-base-300">
+          <Link
+            href={`/penguin/users/${id}`}
+            className="rounded-full h-full relative aspect-square border-base-300"
+          >
             <Image
-              src={userImg}
+              src={userImg || ""}
               fill
               className="h-full absolute -top-2"
               alt="no user"
             />
-          </div>
+          </Link>
         </div>
         <button onClick={() => signOut()}>sign out</button>
       </div>
