@@ -46,11 +46,10 @@ export async function GET(req: NextRequest) {
     )) as unknown as SongScore[];
 
   // mutating to scare the react purists
-  bestAll.forEach((item, index) => {
-    bestAll[index].scoreRating = calculateScoreRating(
-      item.score,
-      item.songBaseLevel
-    );
+  const ratingCalcList = bestAll.map((item) => {
+    item.scoreRating = calculateScoreRating(item.score, item.songBaseLevel);
+
+    return item;
   });
 
   // For recent rating later
@@ -68,7 +67,7 @@ export async function GET(req: NextRequest) {
   // const parsedData = JSON.parse(data[0].scores as string);
 
   return NextResponse.json(
-    bestAll.filter((item) => item.songTitle),
+    ratingCalcList.filter((item) => item.songTitle),
     { status: 200 }
   );
 }

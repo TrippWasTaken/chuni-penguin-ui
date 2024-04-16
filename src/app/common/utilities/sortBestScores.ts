@@ -1,8 +1,10 @@
 import { SongScore } from "@/types/songScore";
 
 export const sortBestScores = (scores: SongScore[]) => {
-  return scores.sort((a, b) => {
-    if (!a.scoreRating || !b.scoreRating) return -1;
+  const sorted = [...scores].sort((a, b) => {
     return b.scoreRating - a.scoreRating;
   });
+
+  console.log(sorted.length);
+  return sorted;
 };
