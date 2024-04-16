@@ -17,10 +17,13 @@ why? because Im too lazy to do user auth rn :)
 - new user adding
 
 
-## main screens as of 4/6/2024
+## main screens as of 4/16/2024
 ![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/b530851b-fc5a-407c-80bf-1f0caaba0f73)
 
 ![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/a8284d14-a771-4603-8dbc-3d93e9700f25)
+
+![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/37037844-5eb7-4e2d-a369-a2a62515b92a)
+
 
 
 ## Todo
