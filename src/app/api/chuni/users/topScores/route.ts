@@ -1,10 +1,12 @@
+import { calculateScoreRating } from "@/app/common/utilities/calculateScoreRating";
+import { SongScore } from "@/types/songScore";
 import { db } from "@/db";
 import {
   chuniProfileRecentRating,
   chuniScoreBest,
   chuniStaticMusic,
 } from "@/drizzle/schema";
-import { eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const id = Number(req.nextUrl.searchParams.get("user"));
@@ -12,51 +14,61 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: `Missing user ID` }, { status: 500 });
   }
 
-  const bestScoresAll = await db
+  const bestAll: SongScore[] = (await db
     .select({
-      difficulty: chuniScoreBest.level,
-      playCount: chuniScoreBest.playCount,
+      songId: chuniStaticMusic.songId,
+      songChartDifficulty: chuniStaticMusic.chartId,
+      songTitle: chuniStaticMusic.title,
+      songArtist: chuniStaticMusic.artist,
+      songBaseLevel: chuniStaticMusic.level,
+      songGenre: chuniStaticMusic.genre,
+      songStaticImg: chuniStaticMusic.jacketPath,
+      worldsEnd: chuniStaticMusic.worldsEndTag,
+      scoreGrade: chuniScoreBest.scoreRank,
+      playcount: chuniScoreBest.playCount,
       score: chuniScoreBest.scoreMax,
-      scoreRank: chuniScoreBest.scoreRank,
       missCount: chuniScoreBest.missCount,
       maxCombo: chuniScoreBest.maxComboCount,
-      isFC: chuniScoreBest.isFullCombo,
-      isAJ: chuniScoreBest.isAllJustice,
-      isSuccess: chuniScoreBest.isSuccess,
       maxChain: chuniScoreBest.maxChain,
-      musicId: chuniScoreBest.musicId,
-      chartId: chuniStaticMusic.chartId,
-      musicTitle: chuniStaticMusic.title,
-      musicArtist: chuniStaticMusic.artist,
-      musicLevel: chuniStaticMusic.level,
-      musicGenre: chuniStaticMusic.genre,
-      jacketPath: chuniStaticMusic.jacketPath,
-      worldsEnd: chuniStaticMusic.worldsEndTag,
+      isFullCombo: chuniScoreBest.isFullCombo,
+      isAllJustice: chuniScoreBest.isAllJustice,
+      hasFullChain: chuniScoreBest.fullChain,
+      clearStatus: chuniScoreBest.isSuccess,
     })
     .from(chuniScoreBest)
     .where(eq(chuniScoreBest.user, id))
-    .leftJoin(chuniStaticMusic, eq(chuniScoreBest.musicId, chuniStaticMusic.id))
-    .orderBy(chuniScoreBest.scoreRank);
+    .leftJoin(
+      chuniStaticMusic,
+      and(
+        eq(chuniScoreBest.musicId, chuniStaticMusic.songId),
+        eq(chuniScoreBest.level, chuniStaticMusic.chartId)
+      )
+    )) as unknown as SongScore[];
 
-  const data = await db
-    .select({ scores: chuniProfileRecentRating.recentRating })
-    .from(chuniProfileRecentRating)
-    .where(eq(chuniProfileRecentRating.user, id));
-
-  if (data.length === 0) {
-    return NextResponse.json(
-      { error: `No data for this user` },
-      { status: 500 }
+  // mutating to scare the react purists
+  bestAll.forEach((item, index) => {
+    bestAll[index].scoreRating = calculateScoreRating(
+      item.score,
+      item.songBaseLevel
     );
-  }
-
-  const parsedData = JSON.parse(data[0].scores as string);
-
-  const bestDataTreated = parsedData.map((item) => {
-    return bestScoresAll.find((best) => best.musicId == Number(item.musicId));
   });
 
-  console.log(bestDataTreated);
-  console.log(id);
-  return NextResponse.json(bestDataTreated, { status: 200 });
+  // For recent rating later
+  // const data = await db
+  //   .select({ scores: chuniProfileRecentRating.recentRating })
+  //   .from(chuniProfileRecentRating)
+  //   .where(eq(chuniProfileRecentRating.user, id));
+
+  // if (data.length === 0) {
+  //   return NextResponse.json(
+  //     { error: `No data for this user` },
+  //     { status: 500 }
+  //   );
+  // }
+  // const parsedData = JSON.parse(data[0].scores as string);
+
+  return NextResponse.json(
+    bestAll.filter((item) => item.songTitle),
+    { status: 200 }
+  );
 }
