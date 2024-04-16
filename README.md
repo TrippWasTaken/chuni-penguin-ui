@@ -1,6 +1,5 @@
 Artemis frontend with an Aime switching ability because my lazy butt doesnt want to keep changing the text file manually.
-In an ideal world this will be similar to the Osu website where every user can view scores and other user "profiles" so noone will actually need to make an account.
-why? because Im too lazy to do user auth rn :)
+In an ideal world this will be similar to the Osu website where every user can view scores and other user "profiles" so noone will actually need to make an account to just browse around
 
 ## Currently using
 - NextJS
