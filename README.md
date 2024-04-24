@@ -17,7 +17,7 @@ In an ideal world this will be similar to the Osu website where every user can v
 
 
 ## main screens as of 4/25/2024
-![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/3c054a62-9028-48f5-b554-eeedc89d3f5f)
+![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/22ea748c-e72e-4735-b3c5-cac0ca43c8d4)
 
 ![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/d492429a-d263-420a-b0a2-c7d2d5444c63)
 
