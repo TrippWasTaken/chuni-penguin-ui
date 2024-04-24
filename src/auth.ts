@@ -23,7 +23,6 @@ const credentialsConfig = CredentialsProvider({
 
   // @ts-ignore
   async authorize(credentials) {
-    console.log(credentials);
     const { password, username } = credentials;
     const user = await db
       .select({
@@ -37,7 +36,6 @@ const credentialsConfig = CredentialsProvider({
       password as unknown as string,
       user[0].password as string
     );
-    console.log("password verified", passMatch);
     if (user[0] && passMatch) {
       const { id } = user[0];
 
