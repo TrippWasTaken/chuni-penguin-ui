@@ -40,6 +40,7 @@ export async function GET(req: NextRequest) {
     .leftJoin(
       chuniStaticMusic,
       and(
+        eq(chuniStaticMusic.version, 15),
         eq(chuniScoreBest.musicId, chuniStaticMusic.songId),
         eq(chuniScoreBest.level, chuniStaticMusic.chartId)
       )
@@ -51,20 +52,6 @@ export async function GET(req: NextRequest) {
 
     return item;
   });
-
-  // For recent rating later
-  // const data = await db
-  //   .select({ scores: chuniProfileRecentRating.recentRating })
-  //   .from(chuniProfileRecentRating)
-  //   .where(eq(chuniProfileRecentRating.user, id));
-
-  // if (data.length === 0) {
-  //   return NextResponse.json(
-  //     { error: `No data for this user` },
-  //     { status: 500 }
-  //   );
-  // }
-  // const parsedData = JSON.parse(data[0].scores as string);
 
   return NextResponse.json(
     ratingCalcList.filter((item) => item.songTitle),

@@ -27,40 +27,38 @@ main {
 
 .chuni-max-gradient {
   @apply bg-gradient-to-tr from-chuniS-1 via-chuniS-2 to-chuniS-3;
-  @apply text-white;
-  text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
-    0 0 1px black;
   @apply border-chuniS-4 border-2;
 }
 
 .chuni-gold-gradient {
   @apply bg-gradient-to-tr from-chuniGold-100 to-chuniGold-200;
-  @apply text-white;
+  @apply border-chuniGold-300 border-2;
+}
+
+.text-outline-shadow {
   text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
     0 0 1px black;
-  @apply border-chuniGold-300 border-2;
 }
 
 .chuni-blue-gradient {
   @apply bg-gradient-to-tr from-chuniBlue-100 to-chuniBlue-200;
-  @apply text-white;
-  text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
-    0 0 1px black;
   @apply border-chuniBlue-300 border-2;
 }
 
 .chuni-bronze-gradient {
   @apply bg-gradient-to-tr from-chuniBronze-100 to-chuniBronze-200;
-  @apply text-white;
-  text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
-    0 0 1px black;
   @apply border-chuniBronze-300 border-2;
 }
 
 .chuni-silver-gradient {
   @apply bg-gradient-to-tr from-chuniSilver-100 to-chuniSilver-200;
-  @apply text-white;
-  text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black,
-    0 0 1px black;
   @apply border-chuniBronze-300 border-2;
+}
+
+/* I dont know if I have any use for this tbh */
+.grade-scale-text {
+  --minFontSize: 1rem;
+  --maxFontSize: 5rem;
+  --scaler: 10cqh;
+  font-size: clamp(var(--minFontSize), var(--scaler), var(--maxFontSize));
 }

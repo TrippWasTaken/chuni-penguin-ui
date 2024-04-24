@@ -5,6 +5,5 @@ export const sortBestScores = (scores: SongScore[]) => {
     return b.scoreRating - a.scoreRating;
   });
 
-  console.log(sorted.length);
   return sorted;
 };

@@ -1,18 +1,18 @@
 "use client";
-import { Alert } from "@/types/alert";
+import { AlertType } from "@/types/alert";
 import { FC, ReactNode, createContext, useContext, useState } from "react";
 
 // @ts-ignore
 const AlertContext = createContext();
 
 const AlertContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const resetValue: Alert = {
+  const resetValue: AlertType = {
     duration: 5,
     show: false,
     type: "info",
     message: null,
   };
-  const [alert, setAlert] = useState<Alert>(resetValue);
+  const [alert, setAlert] = useState<AlertType>(resetValue);
 
   const showAlert = (message: any, type: any, duration = 5) => {
     setAlert(() => ({
@@ -21,7 +21,7 @@ const AlertContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       duration: duration,
       show: true,
     }));
-    setTimeout(() => setAlert((curr: Alert) => resetValue), duration * 1000);
+    setTimeout(() => setAlert(() => resetValue), duration * 1000);
   };
 
   return (
