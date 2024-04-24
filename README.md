@@ -16,12 +16,16 @@ In an ideal world this will be similar to the Osu website where every user can v
 - new user adding
 
 
-## main screens as of 4/16/2024
+## main screens as of 4/25/2024
+![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/22ea748c-e72e-4735-b3c5-cac0ca43c8d4)
+
+![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/d492429a-d263-420a-b0a2-c7d2d5444c63)
+
 ![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/b530851b-fc5a-407c-80bf-1f0caaba0f73)
 
 ![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/a8284d14-a771-4603-8dbc-3d93e9700f25)
 
-![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/37037844-5eb7-4e2d-a369-a2a62515b92a)
+
 
 
 
