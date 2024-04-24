@@ -1,6 +1,10 @@
 Artemis frontend with an Aime switching ability because my lazy butt doesnt want to keep changing the text file manually.
 In an ideal world this will be similar to the Osu website where every user can view scores and other user "profiles" so noone will actually need to make an account to just browse around
 
+<strong> Please dont use this on a public server, theres no real security in place yet, only use this if you run a server between a few friends and you just want to be able to browse their scores and all that. 
+
+The primary purpose is to use this on my local machine and with a few friends so I most likely will not be focusing on things like security. If you wish to help out feel free to reach out or create a PR  </strong>
+
 ## Currently using
 - NextJS
 - TailwindCSS
