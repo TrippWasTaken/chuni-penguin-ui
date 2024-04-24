@@ -66,7 +66,7 @@ export async function GET(req: NextRequest) {
         scoreNum,
         songData[index].songBaseLevel
       ),
-      score: item.score,
+      score: Number(item.score),
       scoreGrade: calculateGradeFromScore(scoreNum),
       ...songData[index],
     };
