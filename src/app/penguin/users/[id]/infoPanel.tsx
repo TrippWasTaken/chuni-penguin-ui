@@ -6,6 +6,7 @@ import Image from "next/image";
 import React from "react";
 import useSWR from "swr";
 import UserCard from "./userCard";
+import AvatarDisplay from "./avatarDisplay";
 
 export default function InfoPanel({
   user,
@@ -51,33 +52,36 @@ export default function InfoPanel({
   if (isLoading) return <LoadingComponent />;
   const charaImgUrl = getCharacterImagePath(charaIllustId, "medium") as string;
   return (
-    <div className="grid grid-cols-2">
-      {/*
+    <>
+      <AvatarDisplay />
+      <div className="grid grid-cols-2">
+        {/*
       // might use the bigger image for something but idk
        <Image
-        className="bg-white aspect-square rounded-2xl"
-        src={charaImgUrl}
-        alt="character Image"
-        width={512}
-        height={512}
+       className="bg-white aspect-square rounded-2xl"
+       src={charaImgUrl}
+       alt="character Image"
+       width={512}
+       height={512}
       /> */}
-      <UserCard
-        level={level}
-        userName={userName}
-        playerRating={playerRating}
-        highestRating={highestRating}
-        charaIllustId={charaIllustId}
-        nameplateId={nameplateId}
-      />
-      <dl className="grid grid-cols-[repeat(2,auto)] gap-x-4 w-full">
-        <dt>First Played</dt> <dd>{firstPlayDate}</dd>
-        <dt>Total High Score</dt> <dd>{totalHiScore?.toLocaleString()}</dd>
-        <dt>Total Result</dt> <dd>{totalPoint?.toLocaleString()}</dd>
-        <dt>Total Map Points</dt> <dd>{totalMapNum?.toLocaleString()}</dd>
-        <dt>Play Count</dt> <dd>{playCount?.toLocaleString()}</dd>
-        <dt>Friends</dt> <dd>{friendCount?.toLocaleString()}</dd>
-        <dt>Last Played Location</dt> <dd>{lastPlaceName}</dd>
-      </dl>
-    </div>
+        <UserCard
+          level={level}
+          userName={userName}
+          playerRating={playerRating}
+          highestRating={highestRating}
+          charaIllustId={charaIllustId}
+          nameplateId={nameplateId}
+        />
+        <dl className="grid grid-cols-[repeat(2,auto)] gap-x-4 w-full">
+          <dt>First Played</dt> <dd>{firstPlayDate}</dd>
+          <dt>Total High Score</dt> <dd>{totalHiScore?.toLocaleString()}</dd>
+          <dt>Total Result</dt> <dd>{totalPoint?.toLocaleString()}</dd>
+          <dt>Total Map Points</dt> <dd>{totalMapNum?.toLocaleString()}</dd>
+          <dt>Play Count</dt> <dd>{playCount?.toLocaleString()}</dd>
+          <dt>Friends</dt> <dd>{friendCount?.toLocaleString()}</dd>
+          <dt>Last Played Location</dt> <dd>{lastPlaceName}</dd>
+        </dl>
+      </div>
+    </>
   );
 }
