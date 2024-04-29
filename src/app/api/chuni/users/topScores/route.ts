@@ -1,11 +1,7 @@
 import { calculateScoreRating } from "@/app/common/utilities/calculateScoreRating";
 import { SongScore } from "@/types/songScore";
 import { db } from "@/db";
-import {
-  chuniProfileRecentRating,
-  chuniScoreBest,
-  chuniStaticMusic,
-} from "@/drizzle/schema";
+import { chuniScoreBest, chuniStaticMusic } from "@/drizzle/schema";
 import { and, desc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
