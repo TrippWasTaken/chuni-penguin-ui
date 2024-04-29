@@ -52,9 +52,8 @@ export default function InfoPanel({
   if (isLoading) return <LoadingComponent />;
   const charaImgUrl = getCharacterImagePath(charaIllustId, "medium") as string;
   return (
-    <>
-      <AvatarDisplay />
-      <div className="grid grid-cols-2">
+    <div className="flex">
+      <div className="grid grid-rows-2">
         {/*
       // might use the bigger image for something but idk
        <Image
@@ -82,6 +81,16 @@ export default function InfoPanel({
           <dt>Last Played Location</dt> <dd>{lastPlaceName}</dd>
         </dl>
       </div>
-    </>
+      <AvatarDisplay
+        avatarHead={avatarHead}
+        avatarBack={avatarBack}
+        avatarFace={avatarFace}
+        avatarFront={avatarFront}
+        avatarItem={avatarItem}
+        avatarPoint={avatarPoint}
+        avatarSkin={avatarSkin}
+        avatarWear={avatarWear}
+      />
+    </div>
   );
 }
