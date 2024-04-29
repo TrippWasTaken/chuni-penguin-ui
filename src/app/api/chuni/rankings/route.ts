@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { chuniProfileData } from "@/drizzle/schema";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -13,6 +14,7 @@ export async function GET(req: NextRequest) {
       level: chuniProfileData.level,
     })
     .from(chuniProfileData)
+    .where(eq(chuniProfileData.version, 15))
     .catch((err) => {
       console.error(err);
       return NextResponse.json(
@@ -20,6 +22,10 @@ export async function GET(req: NextRequest) {
         { status: 500 }
       );
     });
+  //@ts-ignore
+  const sortedUsers = users.sort((a, b) => {
+    return b.currRating - a.currRating;
+  });
 
-  return NextResponse.json(users, { status: 200 });
+  return NextResponse.json(sortedUsers, { status: 200 });
 }

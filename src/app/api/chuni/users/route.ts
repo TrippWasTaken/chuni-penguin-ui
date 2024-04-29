@@ -1,6 +1,4 @@
 import { getUserChuniProfileData } from "@/app/common/utilities/getUserChuniProfileData";
-import { db } from "@/db";
-import { chuniProfileData } from "@/drizzle/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

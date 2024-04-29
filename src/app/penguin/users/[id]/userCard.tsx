@@ -1,6 +1,7 @@
 //card dimensions 576 x 228
 
 import { getCharacterImagePath } from "@/app/common/utilities/getCharacterImage";
+import { ratingToDecimal } from "@/app/common/utilities/ratingToDecimal";
 import Image from "next/image";
 import React from "react";
 // CHU_UI_NamePlate_00000265
@@ -23,11 +24,6 @@ export default function UserCard({
   const nameplateImg = `/static/CHU_UI_NamePlate_${nameplateId
     ?.toString()
     .padStart(8, "0")}.png`;
-
-  const ratingToDecimal = (num: number | null) => {
-    if (!num) return 0;
-    return (num / 100).toFixed(2);
-  };
 
   const charImg = getCharacterImagePath(charaIllustId, "small") as string;
   return (
