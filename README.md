@@ -20,14 +20,18 @@ The primary purpose is to use this on my local machine and with a few friends so
 - new user adding
 
 
-## main screens as of 4/25/2024
-![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/22ea748c-e72e-4735-b3c5-cac0ca43c8d4)
+## main screens as of 4/29/2024
+![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/05f5d31f-e5c4-4bd1-934c-d30d0b86f355)
 
 ![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/d492429a-d263-420a-b0a2-c7d2d5444c63)
 
 ![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/b530851b-fc5a-407c-80bf-1f0caaba0f73)
 
+![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/0cae76fc-ba77-4ec9-853e-a6c735b5434f)
+
 ![image](https://github.com/TrippWasTaken/chuni-penguin-ui/assets/25798641/a8284d14-a771-4603-8dbc-3d93e9700f25)
+
+
 
 
 
