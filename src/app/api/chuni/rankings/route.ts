@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const users = await db
     .select({
-      id: chuniProfileData.user,
+      id: chuniProfileData.id,
       username: chuniProfileData.userName,
       currRating: chuniProfileData.playerRating,
       highestRating: chuniProfileData.highestRating,

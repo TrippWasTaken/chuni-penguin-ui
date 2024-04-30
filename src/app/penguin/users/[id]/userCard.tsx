@@ -28,7 +28,7 @@ export default function UserCard({
   const charImg = getCharacterImagePath(charaIllustId, "small") as string;
   return (
     <div className="relative w-[576px] h-[228px] m-0 p-0 flex flex-row">
-      <div className="absolute text-black bottom-4 right-2 flex p-1 m-2 rounded-md bg-white bg-opacity-50">
+      <div className="absolute text-black bottom-[46px] right-[10px] flex p-1 rounded-md bg-white bg-opacity-25">
         <div className="bg-white bg-opacity-75 absolute -top-12 h-10 w-full m-auto text-2xl font-bold rounded-xl overflow-hidden border-2 border-slate-200">
           Place Holder cus idk where these are
         </div>
