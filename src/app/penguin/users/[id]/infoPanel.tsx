@@ -74,7 +74,6 @@ export default function InfoPanel({
         <dl className="grid grid-cols-[repeat(2,auto)] gap-x-4 w-full">
           <dt>First Played</dt> <dd>{firstPlayDate}</dd>
           <dt>Total High Score</dt> <dd>{totalHiScore?.toLocaleString()}</dd>
-          <dt>Total Result</dt> <dd>{totalPoint?.toLocaleString()}</dd>
           <dt>Total Map Points</dt> <dd>{totalMapNum?.toLocaleString()}</dd>
           <dt>Play Count</dt> <dd>{playCount?.toLocaleString()}</dd>
           <dt>Friends</dt> <dd>{friendCount?.toLocaleString()}</dd>
