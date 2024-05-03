@@ -18,6 +18,10 @@ The primary purpose is to use this on my local machine and with a few friends so
 ## currently in working condition
 - Aime switching
 - new user adding
+- global leaderboard
+- user profile overview and scores
+- top30+10 recent scores and calucaltions
+- song listing
 
 
 ## main screens as of 4/29/2024
