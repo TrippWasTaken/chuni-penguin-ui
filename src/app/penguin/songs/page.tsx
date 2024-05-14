@@ -96,6 +96,7 @@ export default function Songs() {
             genre={song.genre}
             title={song.title}
             songId={song.songId}
+            worldsEndTag={song.worldsEndTag}
           />
         ))}
       </div>

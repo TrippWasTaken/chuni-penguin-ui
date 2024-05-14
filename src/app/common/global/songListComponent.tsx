@@ -11,6 +11,7 @@ export default function SongListComponent({
   artist,
   genre,
   jacketPath,
+  worldsEndTag,
 }: Partial<typeof chuniStaticMusic.$inferSelect>) {
   const imgPath = correctPath(jacketPath);
   const [isHover, setHover] = useState<boolean>(false);
@@ -44,6 +45,9 @@ export default function SongListComponent({
               <span className="badge rounded-2xl bg-accent text-accent-content shadow-sm text-xl p-4">
                 {genre}
               </span>
+              {worldsEndTag !== "invalid" && worldsEndTag && (
+                <span>Worlds End Ver</span>
+              )}
             </div>
           </div>
         </div>

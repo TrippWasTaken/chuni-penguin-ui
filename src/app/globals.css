@@ -89,8 +89,8 @@ main {
 }
 
 .diffWorldsEnd {
-  background: linear-gradient(140.54deg, #608d00 0%, #d30000 72.37%),
-    linear-gradient(360deg, #0029ff 0%, #8fff00 100%),
+  background: linear-gradient(90deg, #608d00 0%, #d30000 72.37%),
+    linear-gradient(90deg, #0029ff 0%, #8fff00 100%),
     radial-gradient(100% 164.72% at 100% 100%, #6100ff 0%, #00ff57 100%),
     radial-gradient(100% 148.07% at 0% 0%, #fff500 0%, #51d500 100%);
   background-blend-mode: color-dodge, overlay, difference, normal;
