@@ -5,8 +5,11 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const songDetail = req.nextUrl?.searchParams.get("songId");
+  const displayLimit = req.nextUrl?.searchParams.get("displayTotal");
+  console.log(displayLimit);
   console.log(songDetail);
   const numId = Number(songDetail);
+  const displayLimitNumber = Number(displayLimit) * 6;
   if (songDetail) {
     const song = await db
       .select()
@@ -39,6 +42,7 @@ export async function GET(req: NextRequest) {
     .select()
     .from(chuniStaticMusic)
     .where(eq(chuniStaticMusic.version, 15))
+    .limit(displayLimitNumber)
     // .groupBy(chuniStaticMusic.songId)
     .catch((err) => {
       return NextResponse.json(
@@ -47,8 +51,17 @@ export async function GET(req: NextRequest) {
       );
     });
 
-  const test = musicList.filter((item) => item.songId === 8282);
+  // const test = musicList.filter((item) => item.songId === 8282);
 
-  console.log(test);
-  return NextResponse.json(musicList, { status: 200 });
+  // console.log(test);
+
+  const songsBundled = [];
+  for (let i = 0; i < displayLimitNumber / 6; i++) {
+    let pos = 0;
+    songsBundled.push(musicList.slice(i * 6, i * 10 + 6));
+  }
+
+  console.log(songsBundled);
+
+  return NextResponse.json(songsBundled, { status: 200 });
 }

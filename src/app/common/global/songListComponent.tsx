@@ -12,7 +12,10 @@ export default function SongListComponent({
   genre,
   jacketPath,
   worldsEndTag,
-}: Partial<typeof chuniStaticMusic.$inferSelect>) {
+  diffs,
+}: {
+  diffs: number;
+} & Partial<typeof chuniStaticMusic.$inferSelect>) {
   const imgPath = correctPath(jacketPath);
   const [isHover, setHover] = useState<boolean>(false);
 
@@ -25,18 +28,30 @@ export default function SongListComponent({
       >
         <motion.div
           initial={{ scale: 1 }}
-          animate={{ scale: isHover ? 1.125 : 1 }}
+          animate={{ scale: isHover ? 1.05 : 1 }}
           transition={{
             ease: "easeInOut",
-            duration: 0.2,
+            duration: 0.1,
           }}
           className="aspect-square w-full absolute z-0 -top-1/2 translate-y-1/2 opacity-20 blur-[6px]"
         >
-          <Image src={imgPath} width={512} height={512} alt="BGSongImage" />
+          <Image
+            src={imgPath}
+            width={512}
+            height={512}
+            alt="BGSongImage"
+            loading="lazy"
+          />
         </motion.div>
         <div className="w-full h-full flex">
           <div className="aspect-square h-full relative">
-            <Image src={imgPath} alt="songImage" width={512} height={512} />
+            <Image
+              src={imgPath}
+              alt="songImage"
+              width={512}
+              height={512}
+              loading="lazy"
+            />
           </div>
           <div className="flex flex-col justify-start pl-4 text-base-content z-20 w-full relative">
             <span className="text-2xl font-bold">{title}</span>
@@ -45,9 +60,7 @@ export default function SongListComponent({
               <span className="badge rounded-2xl bg-accent text-accent-content shadow-sm text-xl p-4">
                 {genre}
               </span>
-              {worldsEndTag !== "invalid" && worldsEndTag && (
-                <span>Worlds End Ver</span>
-              )}
+              <span>{diffs}</span>
             </div>
           </div>
         </div>

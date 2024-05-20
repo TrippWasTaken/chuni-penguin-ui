@@ -6,11 +6,15 @@ import SongListComponent from "@/app/common/global/songListComponent";
 import { chuniStaticMusic } from "@/drizzle/schema";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 
 export default function Songs() {
-  const { data, isLoading, error } = useSWR("/api/chuni/songs", fetcher);
+  const [displayCount, setDisplayCount] = useState<number>(20);
+  const { data, isLoading, error } = useSWR(
+    `/api/chuni/songs?displayTotal=${displayCount}`,
+    fetcher
+  );
 
   // hardcoded for now because I want to get the general dash done up
   // before making it unbreakable
@@ -88,17 +92,21 @@ export default function Songs() {
         </div>
       </div>
       <div className="w-full grid grid-cols-2 grid-flow-row gap-4 p-4">
-        {data.map((song: typeof chuniStaticMusic.$inferSelect) => (
-          <SongListComponent
-            key={song.songId}
-            artist={song.artist}
-            jacketPath={song.jacketPath}
-            genre={song.genre}
-            title={song.title}
-            songId={song.songId}
-            worldsEndTag={song.worldsEndTag}
-          />
-        ))}
+        {data.map((songs: (typeof chuniStaticMusic.$inferSelect)[]) => {
+          const song: typeof chuniStaticMusic.$inferSelect = songs[0];
+          return (
+            <SongListComponent
+              key={song.songId}
+              artist={song.artist}
+              jacketPath={song.jacketPath}
+              genre={song.genre}
+              title={song.title}
+              songId={song.songId}
+              worldsEndTag={song.worldsEndTag}
+              diffs={0}
+            />
+          );
+        })}
       </div>
     </>
   );
