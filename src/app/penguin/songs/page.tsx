@@ -6,15 +6,16 @@ import SongListComponent from "@/app/common/global/songListComponent";
 import { chuniStaticMusic } from "@/drizzle/schema";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
+import SongsListContainer from "./songsListContainer";
 
 export default function Songs() {
-  const [displayCount, setDisplayCount] = useState<number>(20);
-  const { data, isLoading, error } = useSWR(
-    `/api/chuni/songs?displayTotal=${displayCount}`,
-    fetcher
-  );
+  const [displayOffset, setDisplayOffset] = useState<number>(68);
+  const [loadingNewSet, setLoadingNewSet] = useState(false);
+
+  const [reachedEnd, setReachedEnd] = useState(false);
 
   // hardcoded for now because I want to get the general dash done up
   // before making it unbreakable
@@ -50,8 +51,25 @@ export default function Songs() {
     values: ["all", "played", "unplayed"],
   };
 
-  if (error) return <div>Something went wrong: {error}</div>;
-  if (isLoading) return <LoadingComponent />;
+  const scrollBottom = () => {
+    if (
+      Math.round(window.scrollY + window.innerHeight) >=
+      window.document.body.scrollHeight
+    ) {
+      if (!reachedEnd) {
+        console.log("reached end is", reachedEnd);
+        setDisplayOffset((prev) => prev + 1);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollBottom);
+
+    return () => {
+      window.removeEventListener("scroll", scrollBottom);
+    };
+  }, []);
 
   return (
     <>
@@ -87,26 +105,18 @@ export default function Songs() {
             />
           </div>
           <div className="pt-6">
-            showing <span className="font-extrabold">{data.length}</span> songs
+            showing <span className="font-extrabold">{0}</span> songs
           </div>
         </div>
       </div>
       <div className="w-full grid grid-cols-2 grid-flow-row gap-4 p-4">
-        {data.map((songs: (typeof chuniStaticMusic.$inferSelect)[]) => {
-          const song: typeof chuniStaticMusic.$inferSelect = songs[0];
-          return (
-            <SongListComponent
-              key={song.songId}
-              artist={song.artist}
-              jacketPath={song.jacketPath}
-              genre={song.genre}
-              title={song.title}
-              songId={song.songId}
-              worldsEndTag={song.worldsEndTag}
-              diffs={0}
-            />
-          );
-        })}
+        {[...Array(displayOffset).keys()].map((item) => (
+          <SongsListContainer
+            key={item}
+            displayOffset={item}
+            setReachedEnd={setReachedEnd}
+          />
+        ))}
       </div>
     </>
   );

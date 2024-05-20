@@ -5,11 +5,11 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const songDetail = req.nextUrl?.searchParams.get("songId");
-  const displayLimit = req.nextUrl?.searchParams.get("displayTotal");
-  console.log(displayLimit);
-  console.log(songDetail);
+  const displayCount = req.nextUrl?.searchParams.get("displayCount");
+  const displayOffset = req.nextUrl?.searchParams.get("displayOffset");
   const numId = Number(songDetail);
-  const displayLimitNumber = Number(displayLimit) * 6;
+  const displayLimitNumber = Number(displayCount) * 6;
+  const displayOffsetNumber = Number(displayOffset);
   if (songDetail) {
     const song = await db
       .select()
@@ -38,12 +38,17 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  console.log(displayOffsetNumber);
+  const calculatedOffset = displayLimitNumber * displayOffsetNumber;
+
+  console.log("offset calcd", calculatedOffset);
+
   const musicList = await db
     .select()
     .from(chuniStaticMusic)
     .where(eq(chuniStaticMusic.version, 15))
     .limit(displayLimitNumber)
-    // .groupBy(chuniStaticMusic.songId)
+    .offset(calculatedOffset)
     .catch((err) => {
       return NextResponse.json(
         { error: `Something broke along the way ${err}` },
@@ -51,17 +56,10 @@ export async function GET(req: NextRequest) {
       );
     });
 
-  // const test = musicList.filter((item) => item.songId === 8282);
-
-  // console.log(test);
-
   const songsBundled = [];
   for (let i = 0; i < displayLimitNumber / 6; i++) {
-    let pos = 0;
-    songsBundled.push(musicList.slice(i * 6, i * 10 + 6));
+    songsBundled.push(musicList.slice(i * 6, i * 6 + 6));
   }
-
-  console.log(songsBundled);
 
   return NextResponse.json(songsBundled, { status: 200 });
 }

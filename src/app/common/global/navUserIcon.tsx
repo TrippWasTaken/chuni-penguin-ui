@@ -20,7 +20,6 @@ export default function NavUserIcon() {
     });
   };
   const formRef = useRef<HTMLFormElement>(null);
-  console.log("the current session: ", session);
 
   if (session && session?.user) {
     const { charaIllustId, id } = session.user;
