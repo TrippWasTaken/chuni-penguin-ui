@@ -12,10 +12,10 @@ import useSWRImmutable from "swr/immutable";
 import SongsListContainer from "./songsListContainer";
 
 export default function Songs() {
-  const [displayOffset, setDisplayOffset] = useState<number>(68);
+  const [displayOffset, setDisplayOffset] = useState<number>(70);
   const [loadingNewSet, setLoadingNewSet] = useState(false);
 
-  const [reachedEnd, setReachedEnd] = useState(false);
+  const [currNewData, setCurrNewData] = useState<any[] | false>([]);
 
   // hardcoded for now because I want to get the general dash done up
   // before making it unbreakable
@@ -56,8 +56,8 @@ export default function Songs() {
       Math.round(window.scrollY + window.innerHeight) >=
       window.document.body.scrollHeight
     ) {
-      if (!reachedEnd) {
-        console.log("reached end is", reachedEnd);
+      if (currNewData) {
+        console.log("reached end is", currNewData);
         setDisplayOffset((prev) => prev + 1);
       }
     }
@@ -70,6 +70,12 @@ export default function Songs() {
       window.removeEventListener("scroll", scrollBottom);
     };
   }, []);
+
+  useEffect(() => {
+    if (currNewData === false) {
+      window.removeEventListener("scroll", scrollBottom);
+    }
+  }, [currNewData]);
 
   return (
     <>
@@ -114,7 +120,7 @@ export default function Songs() {
           <SongsListContainer
             key={item}
             displayOffset={item}
-            setReachedEnd={setReachedEnd}
+            endReached={() => setCurrNewData(false)}
           />
         ))}
       </div>

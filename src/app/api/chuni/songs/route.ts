@@ -41,8 +41,6 @@ export async function GET(req: NextRequest) {
   console.log(displayOffsetNumber);
   const calculatedOffset = displayLimitNumber * displayOffsetNumber;
 
-  console.log("offset calcd", calculatedOffset);
-
   const musicList = await db
     .select()
     .from(chuniStaticMusic)
@@ -56,8 +54,14 @@ export async function GET(req: NextRequest) {
       );
     });
 
+  if (musicList.length === 0) {
+    return NextResponse.json(false, { status: 200 });
+  }
   const songsBundled = [];
-  for (let i = 0; i < displayLimitNumber / 6; i++) {
+
+  // we may have less than 6 maps left when getting to the end
+  // so we use musicList len other displayLimitNumber
+  for (let i = 0; i < musicList.length / 6; i++) {
     songsBundled.push(musicList.slice(i * 6, i * 6 + 6));
   }
 
