@@ -10,12 +10,33 @@ import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import useSWRImmutable from "swr/immutable";
 import SongsListContainer from "./songsListContainer";
+import useSWRInfinite from "swr/infinite";
 
 export default function Songs() {
-  const [displayOffset, setDisplayOffset] = useState<number>(70);
-  const [loadingNewSet, setLoadingNewSet] = useState(false);
+  const RESULTS_COUNT = 20;
+  const [displayOffset, setDisplayOffset] = useState<number>(0);
 
-  const [currNewData, setCurrNewData] = useState<any[] | false>([]);
+  const [reachedEnd, setReachedEnd] = useState(false);
+  const { data, size, setSize, isLoading } = useSWRInfinite(
+    (index, previousPageData) => {
+      if (
+        (previousPageData && previousPageData.length === 0) ||
+        (previousPageData && previousPageData.length !== RESULTS_COUNT)
+      ) {
+        setReachedEnd(true);
+        return null;
+      }
+      return `/api/chuni/songs?displayCount=${RESULTS_COUNT}&displayOffset=${index}`;
+    },
+    fetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      initialSize: 1,
+      revalidateFirstPage: false,
+    }
+  );
 
   // hardcoded for now because I want to get the general dash done up
   // before making it unbreakable
@@ -56,10 +77,7 @@ export default function Songs() {
       Math.round(window.scrollY + window.innerHeight) >=
       window.document.body.scrollHeight
     ) {
-      if (currNewData) {
-        console.log("reached end is", currNewData);
-        setDisplayOffset((prev) => prev + 1);
-      }
+      if (!reachedEnd) setSize((prev) => prev + 1);
     }
   };
 
@@ -71,11 +89,10 @@ export default function Songs() {
     };
   }, []);
 
-  useEffect(() => {
-    if (currNewData === false) {
-      window.removeEventListener("scroll", scrollBottom);
-    }
-  }, [currNewData]);
+  const isLoadingMore =
+    isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+
+  const pages = data ? [].concat(...data) : [];
 
   return (
     <>
@@ -116,14 +133,15 @@ export default function Songs() {
         </div>
       </div>
       <div className="w-full grid grid-cols-2 grid-flow-row gap-4 p-4">
-        {[...Array(displayOffset).keys()].map((item) => (
-          <SongsListContainer
-            key={item}
-            displayOffset={item}
-            endReached={() => setCurrNewData(false)}
-          />
-        ))}
+        {pages.length > 0 &&
+          pages.map((item, i) => <SongsListContainer key={i} data={item[0]} />)}
       </div>
+      <div>{isLoadingMore && !reachedEnd && <LoadingComponent />}</div>
+      {reachedEnd && (
+        <div className=" font-thin text-4xl italic w-fit m-auto p-5">
+          Thats all the songs we found
+        </div>
+      )}
     </>
   );
 }

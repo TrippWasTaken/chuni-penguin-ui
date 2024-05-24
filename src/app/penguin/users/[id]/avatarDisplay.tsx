@@ -28,7 +28,6 @@ export default function AvatarDisplay({
   avatarSkin: number | null;
   avatarWear: number | null;
 }) {
-  console.log(avatarWear);
   return (
     <div className="relative w-full">
       <div

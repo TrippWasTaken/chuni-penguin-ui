@@ -10,7 +10,6 @@ export default function RankingsPage() {
     "/api/chuni/rankings",
     fetcher
   );
-  console.log(data);
   return (
     <table className="table border-separate border-spacing-y-4 border-spacing-x-0 pr-4 pl-4">
       <thead>

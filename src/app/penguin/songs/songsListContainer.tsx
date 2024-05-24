@@ -6,44 +6,28 @@ import React, { useEffect } from "react";
 import useSWRImmutable from "swr/immutable";
 
 export default function SongsListContainer({
-  displayOffset,
-  endReached,
+  data,
 }: {
-  endReached: any;
-  displayOffset: number;
+  data: typeof chuniStaticMusic.$inferSelect | null;
 }) {
-  const { data, isLoading } = useSWRImmutable(
-    `/api/chuni/songs?displayCount=${20}&displayOffset=${displayOffset}`,
-    fetcher
-  );
-
-  if (isLoading) return <LoadingComponent />;
-  if (data === false) {
+  if (!data) {
     return (
       <div>
-        <button onClick={() => endReached()}> The end</button>
+        <button> The end</button>
       </div>
     );
   }
 
   return (
-    <>
-      {data &&
-        data.map((songs: (typeof chuniStaticMusic.$inferSelect)[]) => {
-          const song: typeof chuniStaticMusic.$inferSelect = songs[0];
-          return (
-            <SongListComponent
-              key={song.songId}
-              artist={song.artist}
-              jacketPath={song.jacketPath}
-              genre={song.genre}
-              title={song.title}
-              songId={song.songId}
-              worldsEndTag={song.worldsEndTag}
-              diffs={0}
-            />
-          );
-        })}
-    </>
+    <SongListComponent
+      key={data.songId}
+      artist={data.artist}
+      jacketPath={data.jacketPath}
+      genre={data.genre}
+      title={data.title}
+      songId={data.songId}
+      worldsEndTag={data.worldsEndTag}
+      diffs={0}
+    />
   );
 }

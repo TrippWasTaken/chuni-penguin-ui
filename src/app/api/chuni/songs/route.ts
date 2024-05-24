@@ -38,7 +38,6 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  console.log(displayOffsetNumber);
   const calculatedOffset = displayLimitNumber * displayOffsetNumber;
 
   const musicList = await db
@@ -55,7 +54,7 @@ export async function GET(req: NextRequest) {
     });
 
   if (musicList.length === 0) {
-    return NextResponse.json(false, { status: 200 });
+    return NextResponse.json([], { status: 200 });
   }
   const songsBundled = [];
 
