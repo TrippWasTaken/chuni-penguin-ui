@@ -1,13 +1,18 @@
-import React from "react";
+import React from "react"
 
 interface Props {
   category: {
-    name: string;
-    values: string[];
-  };
-  setter: () => void;
+    name: string
+    values: string[]
+  }
+  selected: string
+  setter: Function
 }
-export default function FilterCategoryRadio({ category, setter }: Props) {
+export default function FilterCategoryRadio({
+  category,
+  setter,
+  selected,
+}: Props) {
   return (
     <ul className="flex gap-4">
       {category.values.map((value, i) => (
@@ -17,17 +22,17 @@ export default function FilterCategoryRadio({ category, setter }: Props) {
             name={category.name}
             value={value}
             className="hidden peer"
-            id={value}
-            defaultChecked={i === 0}
+            id={category.name + "_" + value}
+            defaultChecked={selected === value}
+            onChange={(e) => setter(e.target.value)}
           />
           <label
-            htmlFor={value}
-            className="opacity-75 peer-checked:opacity-1 font-light peer-checked:font-extrabold cursor-pointer"
-          >
+            htmlFor={category.name + "_" + value}
+            className="opacity-75 peer-checked:opacity-1 font-light peer-checked:font-extrabold cursor-pointer">
             {value}
           </label>
         </li>
       ))}
     </ul>
-  );
+  )
 }
