@@ -1,21 +1,22 @@
-import { fetcher } from "@/app/common/fetcher";
-import { LoadingComponent } from "@/app/common/global/loadingComponent";
-import SongListComponent from "@/app/common/global/songListComponent";
-import { chuniStaticMusic } from "@/drizzle/schema";
-import React, { useEffect } from "react";
-import useSWRImmutable from "swr/immutable";
+import { fetcher } from "@/app/common/fetcher"
+import { LoadingComponent } from "@/app/common/global/loadingComponent"
+import SongListComponent from "@/app/common/global/songListComponent"
+import { chuniStaticMusic } from "@/drizzle/schema"
+import React, { useEffect } from "react"
+import useSWRImmutable from "swr/immutable"
 
 export default function SongsListContainer({
   data,
 }: {
-  data: typeof chuniStaticMusic.$inferSelect | null;
+  data: typeof chuniStaticMusic.$inferSelect | null
 }) {
+  console.log(data)
   if (!data) {
     return (
       <div>
         <button> The end</button>
       </div>
-    );
+    )
   }
 
   return (
@@ -29,5 +30,5 @@ export default function SongsListContainer({
       worldsEndTag={data.worldsEndTag}
       diffs={0}
     />
-  );
+  )
 }

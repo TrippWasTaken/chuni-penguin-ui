@@ -6,11 +6,18 @@ import { SearchOutlined } from "@ant-design/icons"
 import React, { useEffect, useState } from "react"
 import SongsListContainer from "./songsListContainer"
 import useSWRInfinite from "swr/infinite"
-import { revalidateEvents } from "swr/_internal"
+import useSWR from "swr"
+import { useInView } from "react-intersection-observer"
+import { useSession } from "next-auth/react"
 
 export default function Songs() {
   const RESULTS_COUNT = 20
   const [reachedEnd, setReachedEnd] = useState(false)
+  const [filterTouched, setFilterTouched] = useState(Date.now())
+  const { data: userSession } = useSession()
+  if (userSession) {
+    console.log(userSession)
+  }
   // hardcoded for now because I want to get the general dash done up
   // before making it unbreakable
   const difficultyFilterCaterogies = {
@@ -50,20 +57,21 @@ export default function Songs() {
     difficultyFilterCaterogies.values[0]
   )
   const [genre, setGenre] = useState(genreFilterCaterogies.values[0])
-
   const [played, setPlayed] = useState(playedFilterCaterogies.values[0])
+
+  const getKey = (index: any, previousPageData: any[]) => {
+    console.log("our index is", index)
+    if (
+      (previousPageData && previousPageData.length === 0) ||
+      (previousPageData && previousPageData.length !== RESULTS_COUNT)
+    ) {
+      setReachedEnd(true)
+      return null
+    }
+    return `/api/chuni/songs?displayCount=${RESULTS_COUNT}&displayOffset=${index}&genre=${genre}&played=${played}&difficulty=${difficulty}_&=${filterTouched}`
+  }
   const { data, size, setSize, isLoading, mutate } = useSWRInfinite(
-    (index, previousPageData) => {
-      const queryKey = `${difficulty}-${genre}-${played}`
-      if (
-        (previousPageData && previousPageData.length === 0) ||
-        (previousPageData && previousPageData.length !== RESULTS_COUNT)
-      ) {
-        setReachedEnd(true)
-        return
-      }
-      return `/api/chuni/songs?displayCount=${RESULTS_COUNT}&displayOffset=${index}&genre=${genre}&played=${played}&difficulty=${difficulty}_=${queryKey}`
-    },
+    getKey,
     fetcher,
     {
       revalidateIfStale: false,
@@ -75,32 +83,21 @@ export default function Songs() {
     }
   )
 
-  const scrollBottom = () => {
-    if (
-      Math.round(window.scrollY + window.innerHeight) >=
-      window.document.body.scrollHeight
-    ) {
-      console.log(reachedEnd)
-      if (!reachedEnd) setSize((prev) => prev + 1)
-    }
-  }
-
   useEffect(() => {
-    window.addEventListener("scroll", scrollBottom)
-
-    return () => {
-      window.removeEventListener("scroll", scrollBottom)
-    }
-  }, [])
-
-  useEffect(() => {
-    mutate(true, undefined, { revalidate: true })
+    setFilterTouched(Date.now())
   }, [difficulty, genre, played])
+
+  const { ref, inView } = useInView()
 
   const isLoadingMore =
     isLoading || (size > 0 && data && typeof data[size - 1] === "undefined")
 
   const pages = data ? [].concat(...data) : []
+  useEffect(() => {
+    if (inView && data?.length && !reachedEnd) {
+      setSize((prev) => (prev += 1))
+    }
+  }, [inView])
 
   return (
     <>
@@ -156,9 +153,13 @@ export default function Songs() {
             />
           ))}
       </div>
+      <div
+        className="absolute bottom-[200px] -right-11 w-6 h-6"
+        ref={ref}
+      />
       <div>{isLoadingMore && !reachedEnd && <LoadingComponent />}</div>
       {reachedEnd && (
-        <div className=" font-thin text-4xl italic w-fit m-auto p-5">
+        <div className="font-thin text-4xl italic w-fit m-auto p-5">
           Thats all the songs we found
         </div>
       )}
