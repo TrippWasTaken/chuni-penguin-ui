@@ -21,6 +21,9 @@ export default function SongPanel({
   console.log(sessionId)
   const imgPath = correctPath(info.jacketPath)
 
+  const addPlus =
+    Math.floor(info.level || 0 + 0.5) !== Math.floor(info.level || 0)
+
   return (
     <>
       <div className={`h-[340px] relative overflow-hidden`}>
@@ -42,7 +45,8 @@ export default function SongPanel({
 
               <div
                 className={` glass p-2 rounded-2xl ${diffColor} text-outline-shadow font-black text-4xl text-white text-center max-w-fit`}>
-                {diffName} {info.level}
+                {diffName} {Math.floor(info.level || 0)}
+                {addPlus && "+"}
               </div>
             </div>
           </div>

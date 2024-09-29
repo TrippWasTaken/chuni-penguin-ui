@@ -1,4 +1,5 @@
 import { fetcher } from "@/app/common/fetcher"
+import ClearBadge from "@/app/common/global/clearBadge"
 import ScoreRankGrade from "@/app/common/global/scoreRankGrade"
 import { chuniScoreBest, chuniStaticMusic } from "@/drizzle/schema"
 import { SongScore } from "@/types/songScore"
@@ -15,7 +16,12 @@ const BestScoreComponent: FC<{
     fetcher
   )
 
-  if (!data) return <div>You havent played this map yet</div>
+  if (!data)
+    return (
+      <div className="bg-base-100 text-2xl px-10 py-4">
+        You havent played this map.
+      </div>
+    )
 
   const {
     isAllJustice,
@@ -53,6 +59,7 @@ const BestScoreComponent: FC<{
               Play Count:
               <span className="text-2xl"> {playCount}</span>
             </div>
+            {isSuccess && <ClearBadge value={isSuccess} />}
           </div>
         </div>
       </div>

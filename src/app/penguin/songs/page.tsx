@@ -88,7 +88,7 @@ export default function Songs() {
     if (reachedEnd) {
       setReachedEnd(false)
     }
-  }, [difficulty, genre, played])
+  }, [difficulty, genre, played, reachedEnd])
 
   const { ref, inView } = useInView()
 
@@ -100,7 +100,7 @@ export default function Songs() {
     if (inView && data?.length && !reachedEnd) {
       setSize((prev) => (prev += 1))
     }
-  }, [inView])
+  }, [data?.length, inView, reachedEnd, setSize])
 
   return (
     <>

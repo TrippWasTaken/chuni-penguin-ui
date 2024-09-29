@@ -13,7 +13,7 @@ export const SCORE_GRADES = [
   "SS+",
   "SSS",
   "SSS+",
-];
+]
 
 export const SCORE_STATUS = [
   "Fail",
@@ -23,7 +23,7 @@ export const SCORE_STATUS = [
   "Absolute+",
   "Absolute++",
   "Catastrophy",
-];
+]
 
 export const SCORE_COLORS = {
   bronze: "chuni-bronze-gradient",
@@ -31,4 +31,4 @@ export const SCORE_COLORS = {
   blue: "chuni-blue-gradient",
   gold: "chuni-gold-gradient",
   max: "chuni-max-gradient",
-};
+}
