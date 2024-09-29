@@ -29,7 +29,7 @@ export default function Songs() {
       "expert",
       "master",
       "ultima",
-      "worlds end",
+      "worlds-end",
     ],
   }
 

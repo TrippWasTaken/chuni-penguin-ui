@@ -16,6 +16,10 @@ export async function GET(req: NextRequest) {
   const musicLevel = req.nextUrl?.searchParams.get("level")
   const musicGenre = req.nextUrl?.searchParams.get("genre")
 
+  if (musicGenre === "POPS-AND-ANIME") {
+    musicGenre.replace("-AND-", " & ")
+  }
+
   const musicDiffs = {
     basic: 0,
     advanced: 1,
@@ -25,39 +29,12 @@ export async function GET(req: NextRequest) {
     "worlds end": 5,
   }
 
-  if (songDetail) {
-    const song = await db
-      .select()
-      .from(chuniStaticMusic)
-      .where(
-        and(
-          eq(chuniStaticMusic.version, 15),
-          eq(chuniStaticMusic.songId, numId)
-        )
-      )
-
-    // worlds end doesnt really seem to work and all songs
-    // have a chart for ultima and worlds end that will just be 0
-    // so we need to remove them if thats the case
-    const filterRubbish = song.filter(
-      (item, i) => item.chartId && item.level !== 0
-    )
-
-    if (song.length > 0) {
-      return NextResponse.json(filterRubbish, { status: 200 })
-    }
-
-    return NextResponse.json(
-      { error: "seems this doesnt exist" },
-      { status: 404 }
-    )
-  }
-
   const calculatedOffset = displayLimitNumber * displayOffsetNumber
 
   const toFilter = []
 
   if (musicGenre !== "any" && musicGenre !== null) {
+    console.log(musicGenre)
     toFilter.push(eq(chuniStaticMusic.genre, musicGenre))
   }
 
@@ -104,8 +81,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json([], { status: 200 })
   }
 
+  // This is old and no longer needed but just incase I ever do need this I'll leave it here
   // const songsBundled = []
-
+  //
   // // we may have less than 6 maps left when getting to the end
   // // so we use musicList len other displayLimitNumber
   // if (Array.isArray(musicList)) {
