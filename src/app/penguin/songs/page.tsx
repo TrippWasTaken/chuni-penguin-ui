@@ -68,7 +68,7 @@ export default function Songs() {
       setReachedEnd(true)
       return null
     }
-    return `/api/chuni/songs?displayCount=${RESULTS_COUNT}&displayOffset=${index}&genre=${genre}&played=${played}&difficulty=${difficulty}_&=${filterTouched}`
+    return `/api/chuni/songs?displayCount=${RESULTS_COUNT}&displayOffset=${index}&genre=${genre}&played=${played}&difficulty=${difficulty}&=${filterTouched}`
   }
   const { data, size, setSize, isLoading, mutate } = useSWRInfinite(
     getKey,
@@ -85,6 +85,9 @@ export default function Songs() {
 
   useEffect(() => {
     setFilterTouched(Date.now())
+    if (reachedEnd) {
+      setReachedEnd(false)
+    }
   }, [difficulty, genre, played])
 
   const { ref, inView } = useInView()
@@ -149,7 +152,7 @@ export default function Songs() {
           pages.map((item, i) => (
             <SongsListContainer
               key={i}
-              data={item[0]}
+              data={item}
             />
           ))}
       </div>
