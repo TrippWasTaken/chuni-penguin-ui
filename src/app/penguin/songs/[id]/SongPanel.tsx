@@ -18,8 +18,6 @@ export default function SongPanel({
   const sessionId = data?.user.user
   const imgPath = correctPath(info.jacketPath)
 
-  console.log(info.worldsEndTag)
-
   const addPlus =
     Math.floor((info.level as number) + 0.5) !==
     Math.floor(info.level as number)

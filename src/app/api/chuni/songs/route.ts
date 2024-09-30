@@ -39,10 +39,6 @@ export async function GET(req: NextRequest) {
     toFilter.push(eq(chuniStaticMusic.genre, musicGenre))
   }
 
-  // if (musicDifficulty === "any" || musicDifficulty === null) {
-  //   toFilter.push(eq(chuniStaticMusic.chartId, musicDiffs.basic))
-  // }
-
   if (musicQuery !== "") {
     toFilter.push(
       or(
@@ -94,6 +90,7 @@ export async function GET(req: NextRequest) {
   //
   // // we may have less than 6 maps left when getting to the end
   // // so we use musicList len other displayLimitNumber
+  // // This is horrible but groupBy doesnt seem to group things properly so might need it
   // if (Array.isArray(musicList)) {
   //   for (let i = 0; i < musicList.length / 6; i++) {
   //     songsBundled.push(musicList.slice(i * 6, i * 6 + 6))
