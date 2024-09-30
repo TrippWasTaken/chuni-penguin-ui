@@ -16,13 +16,13 @@ export default function SongPanel({
 }) {
   const { data } = useSession()
   const sessionId = data?.user.user
-  console.log(data)
-
-  console.log(sessionId)
   const imgPath = correctPath(info.jacketPath)
 
+  console.log(info.worldsEndTag)
+
   const addPlus =
-    Math.floor(info.level || 0 + 0.5) !== Math.floor(info.level || 0)
+    Math.floor((info.level as number) + 0.5) !==
+    Math.floor(info.level as number)
 
   return (
     <>
@@ -43,10 +43,18 @@ export default function SongPanel({
               <div className=" text-4xl font-bold">{info.title}</div>
               <div className="text-2xl font-medium mb-4">{info.artist}</div>
 
-              <div
-                className={` glass p-2 rounded-2xl ${diffColor} text-outline-shadow font-black text-4xl text-white text-center max-w-fit`}>
-                {diffName} {Math.floor(info.level || 0)}
-                {addPlus && "+"}
+              <div className="flex flex-row">
+                <div
+                  className={` glass p-2 rounded-2xl ${diffColor} text-outline-shadow font-black text-4xl text-white text-center max-w-fit`}>
+                  {diffName} {Math.floor(info.level || 0)}
+                  {addPlus && "+"}
+                </div>
+                {info.worldsEndTag !== "Invalid" &&
+                  info.worldsEndTag !== null && (
+                    <div className="text-4xl font-black glass p-2 rounded-2xl text-center mx-4 px-2 text-white bg-red-500 text-outline-shadow">
+                      {info.worldsEndTag}
+                    </div>
+                  )}
               </div>
             </div>
           </div>
