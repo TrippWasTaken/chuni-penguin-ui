@@ -1,25 +1,25 @@
-"use client";
-import { HomeOutlined } from "@ant-design/icons";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Navbar from "../common/global/navbar";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+"use client"
+import { HomeOutlined } from "@ant-design/icons"
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import Navbar from "../common/global/navbar"
+import { useState } from "react"
+import { useSession } from "next-auth/react"
 
 export default function Layout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  const currPath = usePathname();
-  const { data } = useSession();
-  const currId = data?.user.id;
+  const currPath = usePathname()
+  const { data } = useSession()
+  const currId = data?.user.id
   return (
     <>
       <div className="w-full h-full">
         <Navbar currPath={currPath} />
-        <main className=" m-auto relative z-10 bg-base-300 max-w-screen-xl mt-4 rounded-xl h-auto shadow-2xl">
+        <main className=" m-auto relative z-10 bg-base-300 max-w-screen-xl min-h-[80%] mt-4 rounded-xl h-auto shadow-2xl">
           <div className="w-full h-20 bg-base-100 rounded-xl rounded-b-none">
             <div className="text-3xl flex relative justify-start items-center pl-10 h-full">
               <div className="pl-5 relative">
@@ -59,5 +59,5 @@ export default function Layout({
         </main>
       </div>
     </>
-  );
+  )
 }

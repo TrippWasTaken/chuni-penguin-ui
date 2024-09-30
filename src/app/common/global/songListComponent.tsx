@@ -1,9 +1,9 @@
-import { chuniStaticMusic } from "@/drizzle/schema";
-import React, { useState } from "react";
-import { correctPath } from "../utilities/correctPath";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { chuniStaticMusic } from "@/drizzle/schema"
+import React, { useState } from "react"
+import { correctPath } from "../utilities/correctPath"
+import Image from "next/image"
+import { motion } from "framer-motion"
+import Link from "next/link"
 
 export default function SongListComponent({
   songId,
@@ -11,38 +11,30 @@ export default function SongListComponent({
   artist,
   genre,
   jacketPath,
-  worldsEndTag,
-  diffs,
-}: {
-  diffs: number;
-} & Partial<typeof chuniStaticMusic.$inferSelect>) {
-  const imgPath = correctPath(jacketPath);
-  const [isHover, setHover] = useState<boolean>(false);
+}: Partial<typeof chuniStaticMusic.$inferSelect>) {
+  const imgPath = correctPath(jacketPath)
+  const [isHover, setHover] = useState<boolean>(false)
 
   return (
     <Link href={`/penguin/songs/${songId}`}>
       <motion.div
         onHoverStart={() => setHover(true)}
         onHoverEnd={() => setHover(false)}
-        className="w-full h-[10rem] overflow-hidden rounded-xl relative hover:cursor-pointer"
-      >
-        <motion.div
+        className="w-full h-[10rem] overflow-hidden rounded-xl relative hover:cursor-pointer">
+        <motion.img
+          className="aspect-square w-full absolute z-0 -top-full opacity-20 blur-[6px]"
           initial={{ scale: 1 }}
           animate={{ scale: isHover ? 1.05 : 1 }}
           transition={{
-            ease: "easeInOut",
+            ease: "easeIn",
             duration: 0.1,
           }}
-          className="aspect-square w-full absolute z-0 -top-1/2 translate-y-1/2 opacity-20 blur-[6px]"
-        >
-          <Image
-            src={imgPath}
-            width={512}
-            height={512}
-            alt="BGSongImage"
-            loading="lazy"
-          />
-        </motion.div>
+          src={imgPath}
+          width={512}
+          height={512}
+          alt="BGSongImage"
+          loading="lazy"
+        />
         <div className="w-full h-full flex">
           <div className="aspect-square h-full relative">
             <Image
@@ -60,11 +52,10 @@ export default function SongListComponent({
               <span className="badge rounded-2xl bg-accent text-accent-content shadow-sm text-xl p-4">
                 {genre}
               </span>
-              <span>{diffs}</span>
             </div>
           </div>
         </div>
       </motion.div>
     </Link>
-  );
+  )
 }

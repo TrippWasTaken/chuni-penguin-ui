@@ -1,22 +1,14 @@
-import { fetcher } from "@/app/common/fetcher"
-import { LoadingComponent } from "@/app/common/global/loadingComponent"
 import SongListComponent from "@/app/common/global/songListComponent"
 import { chuniStaticMusic } from "@/drizzle/schema"
-import React, { useEffect } from "react"
-import useSWRImmutable from "swr/immutable"
+import React from "react"
 
 export default function SongsListContainer({
   data,
 }: {
   data: typeof chuniStaticMusic.$inferSelect | null
 }) {
-  console.log(data)
   if (!data) {
-    return (
-      <div>
-        <button> The end</button>
-      </div>
-    )
+    return
   }
 
   return (
@@ -27,8 +19,6 @@ export default function SongsListContainer({
       genre={data.genre}
       title={data.title}
       songId={data.songId}
-      worldsEndTag={data.worldsEndTag}
-      diffs={0}
     />
   )
 }

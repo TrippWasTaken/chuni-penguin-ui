@@ -14,10 +14,6 @@ export default function Songs() {
   const RESULTS_COUNT = 20
   const [reachedEnd, setReachedEnd] = useState(false)
   const [filterTouched, setFilterTouched] = useState(Date.now())
-  const { data: userSession } = useSession()
-  if (userSession) {
-    console.log(userSession)
-  }
   // hardcoded for now because I want to get the general dash done up
   // before making it unbreakable
   const difficultyFilterCaterogies = {
@@ -56,11 +52,12 @@ export default function Songs() {
   const [difficulty, setDifficulty] = useState(
     difficultyFilterCaterogies.values[0]
   )
+  const [query, setQuery] = useState("")
+  const [debaouncedQuery, setDebaouncedQuery] = useState("")
   const [genre, setGenre] = useState(genreFilterCaterogies.values[0])
   const [played, setPlayed] = useState(playedFilterCaterogies.values[0])
 
   const getKey = (index: any, previousPageData: any[]) => {
-    console.log("our index is", index)
     if (
       (previousPageData && previousPageData.length === 0) ||
       (previousPageData && previousPageData.length !== RESULTS_COUNT)
@@ -68,7 +65,7 @@ export default function Songs() {
       setReachedEnd(true)
       return null
     }
-    return `/api/chuni/songs?displayCount=${RESULTS_COUNT}&displayOffset=${index}&genre=${genre}&played=${played}&difficulty=${difficulty}&=${filterTouched}`
+    return `/api/chuni/songs?displayCount=${RESULTS_COUNT}&displayOffset=${index}&genre=${genre}&played=${played}&difficulty=${difficulty}&query=${debaouncedQuery}&=${filterTouched}`
   }
   const { data, size, setSize, isLoading, mutate } = useSWRInfinite(
     getKey,
@@ -88,7 +85,16 @@ export default function Songs() {
     if (reachedEnd) {
       setReachedEnd(false)
     }
-  }, [difficulty, genre, played, reachedEnd])
+    // breaks the refreshes if you listen to the linter :(
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [difficulty, genre, played, query])
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebaouncedQuery(query), 750)
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [query])
 
   const { ref, inView } = useInView()
 
@@ -100,7 +106,12 @@ export default function Songs() {
     if (inView && data?.length && !reachedEnd) {
       setSize((prev) => (prev += 1))
     }
-  }, [data?.length, inView, reachedEnd, setSize])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView])
+
+  const handleOnChange = (e: any) => {
+    setQuery(e.target.value)
+  }
 
   return (
     <>
@@ -110,6 +121,8 @@ export default function Songs() {
             type="text"
             className="grow"
             placeholder="Type in keywords"
+            value={query}
+            onChange={handleOnChange}
           />
           <SearchOutlined />
         </label>

@@ -1,6 +1,6 @@
 import { db } from "@/db"
 import { chuniStaticMusic } from "@/drizzle/schema"
-import { and, eq, gt } from "drizzle-orm"
+import { and, eq, gt, like, or } from "drizzle-orm"
 import { NextResponse, NextRequest } from "next/server"
 
 export async function GET(req: NextRequest) {
@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
   const musicDifficulty = req.nextUrl?.searchParams.get("difficulty")
   const musicLevel = req.nextUrl?.searchParams.get("level")
   const musicGenre = req.nextUrl?.searchParams.get("genre")
+  const musicQuery = req.nextUrl?.searchParams.get("query")
 
   if (musicGenre === "POPS-AND-ANIME") {
     musicGenre.replace("-AND-", " & ")
@@ -42,20 +43,27 @@ export async function GET(req: NextRequest) {
   //   toFilter.push(eq(chuniStaticMusic.chartId, musicDiffs.basic))
   // }
 
+  if (musicQuery !== "") {
+    toFilter.push(
+      or(
+        like(chuniStaticMusic.title, `%${musicQuery}%`),
+        like(chuniStaticMusic.artist, `%${musicQuery}%`)
+      )
+    )
+  }
+
   if (musicDifficulty !== "any" && musicDifficulty !== null) {
     switch (musicDifficulty) {
       case "basic":
         break
       case "advanced":
         break
-
       case "expert":
         break
       case "ultima":
         toFilter.push(eq(chuniStaticMusic.chartId, musicDiffs.ultima))
         toFilter.push(gt(chuniStaticMusic.level, 0))
         break
-
       case "worlds end":
         break
       default:
