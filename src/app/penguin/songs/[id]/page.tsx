@@ -4,7 +4,6 @@ import React, { useState } from "react"
 import useSWR from "swr"
 import { chuniStaticMusic } from "@/drizzle/schema"
 import SongPanel from "./SongPanel"
-import { getBinaryMetadata } from "next/dist/build/swc"
 import { LoadingComponent } from "@/app/common/global/loadingComponent"
 
 export default function SongInfo({ params }: { params: { id: string } }) {
