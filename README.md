@@ -22,6 +22,9 @@ The primary purpose is to use this on my local machine and with a few friends so
 - user profile overview and scores
 - top30+10 recent scores and calucaltions
 - song listing
+- most of the song listing filters
+- lazy loading on song listing
+- song info that shows all the difficulties as well as your top score if you played the song
 
 
 ## main screens as of 4/29/2024
